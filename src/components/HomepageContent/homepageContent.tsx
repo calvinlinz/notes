@@ -2,7 +2,7 @@ import { selectEmail } from "@/loginSlice";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./homepageContent.module.css";
-import PocketBase from "pocketbase";
+import PocketBase from 'pocketbase';
 
 const pb = new PocketBase("http://127.0.0.1:8090");
 
