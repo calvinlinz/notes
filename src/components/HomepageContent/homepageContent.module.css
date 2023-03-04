@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Mynerve&family=Tilt+Neon&display=swap');
+
+.gridContainer{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top:25px; 
+    gap:25px;
+    justify-content: center;
+    width:100vw;
+}
+
+.gridBox{
+    width:250px;
+    height:250px;
+    background-color: rgb(255,238,90);
+}
+
+.gridBoxContent{
+    padding:25px;
+}
+
+.gridBoxHeader{
+    height:31px;
+}
+.gridBoxHeader h2{
+    text-align: center;
+}
+
+.gridBoxDescription{
+    text-align: left;
+    padding-top :10px;
+    width:200px;
+    height:163px;
+}
+.gridBoxDescription p{
+    font-size:1.1rem;
+    overflow-wrap: anywhere;
+}
+
+.titleInput{
+    text-align:center;
+    background: transparent;
+    font-weight:bold;
+    background-color:none;
+    font-size:1.5em;
+    width:200px;
+    height:31px;
+    padding: 0;
+    border:none;
+}
+
+.noteInput{
+    background: transparent;
+    text-align:center;
+    overflow:none;
+    width:200px;
+    height: 153px;
+    padding: 0;
+    border:none;
+    font-size:1.1rem;
+}
+.gridBoxButton{
+    display:flex;
+    justify-content: center;
+}
+.gridBoxButton button{
+    font-family: 'Tilt Neon', cursive;
+    position: absolute;
+    font-size:2rem;
+    background:transparent;
+    border-radius: 50%;
+    border:none;
+    color:black;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.gridBoxButton button:hover{
+    cursor:pointer;
+}
+.gridBoxButton button:active{
+    font-size:1.9rem;
+}
