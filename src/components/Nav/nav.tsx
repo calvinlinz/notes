@@ -6,7 +6,7 @@ import { useEffect } from "react";
 const clientId =
   "316204802962-jjkqmkcq42dc785kt673kg6sp84cs8pd.apps.googleusercontent.com";
 
-let gapiHook: { client: { init: (arg0: { client_d: string; scope: string; }) => void; }; load: (arg0: string, arg1: () => Promise<void>) => void; };
+let gapiHook: any;
 
 (async () => {
  const { gapi } = 
