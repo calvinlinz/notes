@@ -7,34 +7,29 @@ export async function generateData(){
     return response;
 }
 
-export async function deleteData(){
+export async function deleteData(id : any, email : any){
     const fs = require('fs');
     const response = await require("../notes.json");
     const fileName = "./notes.json"
 
-    const newObject = {"email": "23@gmail.com","id": "3",};
-
     const json =  response.filter((note:any) => {
-        return note.id != newObject.id && note.email != newObject.email;
+        return note.id != id && note.email != email;
     });
 
     fs.writeFileSync(fileName, JSON.stringify(json, null, 2));
-
-
-    return response;
 }
 
 
 
-export async function putData(){
+export async function putData(id : any, title: any, note : any, email : any){
     const fs = require('fs');
     const response = await require("../notes.json");
     const fileName = "./notes.json"
 
-    const newObject = {"email": "23@gmail.com",
-    "id": "3",
-    "note": "232\n\n\nSwen326",
-    "title": "TESTER"};
+    const newObject = {"email": email,
+    "id": id,
+    "note": note,
+    "title": title};
 
     fs.writeFile(fileName, JSON.stringify([...response, newObject]), (err:Error) => {
         if (err) console.log('Error writing file:', err);
