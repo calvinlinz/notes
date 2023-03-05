@@ -1,27 +1,31 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import {allData, deleteData, putData, userData} from "@/generateData";
+import { deleteData, putData, userData } from "@/pages/api/dbQueries";
 
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  const method = req?.method;
+  const id = req.body?.id;
+  const title = req.body?.title;
+  const note = req.body?.note;
+  const email = req.body?.email;
 
-export default async function handler(req : NextApiRequest, res : NextApiResponse){
-    const method = req.method;
-    const id = req.body.id;
-    const title = req.body.title;
-    const note = req.body.note;
-    const email = req.body.email;
-
-    switch(method){
-        case "POST":
-            res.status(200).json( await userData(email));
-            return;
-        case "PUT":
-            res.status(200).json( await putData(id,title,note,email))
-            return;
-        case "DELETE":
-            res.status(200).json( await deleteData(id,email));
-            return;
-        default:
-            res.status(404).json("FAILED");
-            return;
-    }
-
+  switch (method) {
+    case "POST":
+      let data = await userData(email);
+      res.status(200).json(data);
+      return;
+    case "PUT":
+      data = await putData(id, title, note, email);
+      res.status(200).json(data);
+      return;
+    case "DELETE":
+      data = await deleteData(id, email);
+      res.status(200).json(data);
+      return;
+    default:
+      res.status(404).json({ name: 'notes end point' });
+      return;
+  }
 }

@@ -17,18 +17,21 @@ export default function HomepageContent() {
       `http://localhost:3000/api/notes`,
       {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
-          email
+          email,
         }),
         }
       );
 
-    const data = await res.json();
-    setData(data);
+    const placeHolderData = await res.json();
+    setData(placeHolderData);
   }
 
   const newNote = async (title: string, note: string) => {
-    let id : Number = data.length+1;
+    let id : Number = data.length;
 
     await fetch(
       `http://localhost:3000/api/notes`,
@@ -69,7 +72,7 @@ export default function HomepageContent() {
 
   useEffect(() => {
     getNotes();
-  }, [email]);
+  },[email]);
 
   return (
     <div className={styles.gridContainer}>
