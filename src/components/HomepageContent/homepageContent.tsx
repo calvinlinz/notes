@@ -5,16 +5,19 @@ import styles from "./homepageContent.module.css";
 import PocketBase from 'pocketbase';
 
 const pb = new PocketBase("http://127.0.0.1:8090");
+const PRODUCTION : boolean = (process.env.PRODUCTION?.toLowerCase?.() === 'true');
+const API = PRODUCTION ? 'https://apipostitnotes.netlify.app/api/notes' : 'http://localhost:3000/api/notes';
 
 export default function HomepageContent() {
   const [data, setData] = useState<any[]>([""]);
   const email = useSelector(selectEmail);
   const [title, setTitle] = useState("");
   const [note, setNote] = useState("");
-
+  
  async function getNotes() {
+
     const res = await fetch(
-      `http://localhost:3000/api/notes`,
+      API,
       {
         method: "POST",
         headers: {
@@ -34,7 +37,7 @@ export default function HomepageContent() {
     let id : Number = data.length;
 
     await fetch(
-      `http://localhost:3000/api/notes`,
+      API,
       {
         method: "PUT",
         headers: {
@@ -55,7 +58,7 @@ export default function HomepageContent() {
 
   const deleteNote = async (id: string) => {
     await fetch(
-      `http://localhost:3000/api/notes`,
+      API,
       {
         method: "DELETE",
         headers: {
