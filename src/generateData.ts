@@ -1,10 +1,19 @@
-import { InferGetStaticPropsType } from "next";
 
 
-
-export async function generateData(){
+export async function allData(){
     const response = await require("../notes.json");
+
     return response;
+}
+
+
+export async function userData(email : any){
+    const response = await require("../notes.json");
+
+    const json =  response.filter((note:any) => {
+        return note.email == email;
+    });
+    return json;
 }
 
 export async function deleteData(id : any, email : any){
@@ -18,8 +27,6 @@ export async function deleteData(id : any, email : any){
 
     fs.writeFileSync(fileName, JSON.stringify(json, null, 2));
 }
-
-
 
 export async function putData(id : any, title: any, note : any, email : any){
     const fs = require('fs');

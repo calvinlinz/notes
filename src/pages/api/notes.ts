@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import {deleteData, generateData, putData} from "@/generateData";
+import {allData, deleteData, putData, userData} from "@/generateData";
 
 
 export default async function handler(req : NextApiRequest, res : NextApiResponse){
@@ -11,8 +11,10 @@ export default async function handler(req : NextApiRequest, res : NextApiRespons
 
     switch(method){
         case "GET":
-            res.status(200).json( await generateData())
+            res.status(200).json( await allData())
         case "POST":
+            res.status(200).json( await userData(email))
+        case "PUT":
             res.status(200).json( await putData(id,title,note,email))
         case "DELETE":
             res.status(200).json( await deleteData(id,email))
