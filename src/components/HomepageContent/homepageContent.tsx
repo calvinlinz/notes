@@ -14,27 +14,37 @@ export default function HomepageContent() {
 
  async function getNotes() {
     const res = await fetch(
-      `http://127.0.0.1:8090/api/collections/notes/records?filter=(email='${email}')`,
-      {
-        next: { revalidate: 10 },
-      }
-    );
-    const data = await res.json();
-    setData(data?.items);
-  }
-
-  const newNote = async (title: string, note: string) => {
-    await fetch(
-      `http://127.0.0.1:8090/api/collections/notes/records?page=1%perPage=30`,
+      `http://localhost:3000/api/notes`,
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          email,
+        }),
+        }
+      );
+
+    const placeHolderData = await res.json();
+    setData(placeHolderData);
+  }
+
+  const newNote = async (title: string, note: string) => {
+    let id : Number = data.length;
+
+    await fetch(
+      `http://localhost:3000/api/notes`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+          email,
           title,
           note,
-          email,
         }),
       }
     );
@@ -44,13 +54,25 @@ export default function HomepageContent() {
   };
 
   const deleteNote = async (id: string) => {
-    await pb.collection("notes").delete(id);
+    await fetch(
+      `http://localhost:3000/api/notes`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+          email,
+        }),
+      }
+    );
     getNotes();
   };
 
   useEffect(() => {
     getNotes();
-  }, [email]);
+  },[email]);
 
   return (
     <div className={styles.gridContainer}>

@@ -1,36 +1,34 @@
 
 
 export async function allData(){
-    const response = await require("../notes.json");
-
-    return response;
+    return await require("../../../notes.json");
 }
 
-
-export async function userData(email : any){
-    const response = await require("../notes.json");
-
+export async function userData(email : string){
+    const response = await require("../../../notes.json");
     const json =  response.filter((note:any) => {
         return note.email == email;
     });
+    
     return json;
 }
 
-export async function deleteData(id : any, email : any){
+export async function deleteData(id : string, email : string){
     const fs = require('fs');
-    const response = await require("../notes.json");
+    const response = await require("../../../notes.json");
     const fileName = "./notes.json"
 
     const json =  response.filter((note:any) => {
-        return note.id != id && note.email != email;
+        return note.id != id && note.email == email
     });
 
     fs.writeFileSync(fileName, JSON.stringify(json, null, 2));
+    return await require("../../../notes.json");
 }
 
-export async function putData(id : any, title: any, note : any, email : any){
+export async function putData(id : string, title: string, note : string, email : string){
     const fs = require('fs');
-    const response = await require("../notes.json");
+    const response = await require("../../../notes.json");
     const fileName = "./notes.json"
 
     const newObject = {"email": email,
@@ -41,5 +39,7 @@ export async function putData(id : any, title: any, note : any, email : any){
     fs.writeFile(fileName, JSON.stringify([...response, newObject]), (err:Error) => {
         if (err) console.log('Error writing file:', err);
     })
+
+    return await require("../../../notes.json");
 }
 
