@@ -2,22 +2,28 @@ import Link from "next/link";
 import styles from "./nav.module.css";
 import Login from "../Login/login";
 import { useEffect } from "react";
-import { gapi} from 'gapi-script'
 
 const clientId =
   "316204802962-jjkqmkcq42dc785kt673kg6sp84cs8pd.apps.googleusercontent.com";
 
+let gapiHook: { client: { init: (arg0: { client_d: string; scope: string; }) => void; }; load: (arg0: string, arg1: () => Promise<void>) => void; };
+
+(async () => {
+ const { gapi } = 
+ await import('gapi-script');
+ gapiHook = gapi;
+})();
 
 
 export default function Nav() {
   useEffect(() => {
     async function start() {
-      gapi.client.init({
+      gapiHook.client.init({
         client_d: clientId,
         scope: "profile",
       });
     }
-    gapi.load("client:auth2", start);
+    gapiHook.load("client:auth2", start);
 
   });
 
