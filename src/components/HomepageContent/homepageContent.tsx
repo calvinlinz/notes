@@ -14,27 +14,34 @@ export default function HomepageContent() {
 
  async function getNotes() {
     const res = await fetch(
-      `http://127.0.0.1:8090/api/collections/notes/records?filter=(email='${email}')`,
+      `http://localhost:3000/api/notes`,
       {
-        next: { revalidate: 10 },
-      }
-    );
+        method: "POST",
+        body: JSON.stringify({
+          email
+        }),
+        }
+      );
+
     const data = await res.json();
-    setData(data?.items);
+    setData(data);
   }
 
   const newNote = async (title: string, note: string) => {
+    let id : Number = data.length+1;
+
     await fetch(
-      `http://127.0.0.1:8090/api/collections/notes/records?page=1%perPage=30`,
+      `http://localhost:3000/api/notes`,
       {
-        method: "POST",
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          id,
+          email,
           title,
           note,
-          email,
         }),
       }
     );
@@ -44,7 +51,19 @@ export default function HomepageContent() {
   };
 
   const deleteNote = async (id: string) => {
-    await pb.collection("notes").delete(id);
+    await fetch(
+      `http://localhost:3000/api/notes`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id,
+          email,
+        }),
+      }
+    );
     getNotes();
   };
 

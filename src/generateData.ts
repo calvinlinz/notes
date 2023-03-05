@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+import { selectEmail } from "./loginSlice";
 
 
 export async function allData(){
@@ -9,7 +11,6 @@ export async function allData(){
 
 export async function userData(email : any){
     const response = await require("../notes.json");
-
     const json =  response.filter((note:any) => {
         return note.email == email;
     });
@@ -22,7 +23,7 @@ export async function deleteData(id : any, email : any){
     const fileName = "./notes.json"
 
     const json =  response.filter((note:any) => {
-        return note.id != id && note.email != email;
+        return null
     });
 
     fs.writeFileSync(fileName, JSON.stringify(json, null, 2));

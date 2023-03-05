@@ -4,20 +4,24 @@ import {allData, deleteData, putData, userData} from "@/generateData";
 
 export default async function handler(req : NextApiRequest, res : NextApiResponse){
     const method = req.method;
-    const id = req.query.id;
-    const title = req.query.title;
-    const note = req.query.note;
-    const email = req.query.email;
+    const id = req.body.id;
+    const title = req.body.title;
+    const note = req.body.note;
+    const email = req.body.email;
 
     switch(method){
-        case "GET":
-            res.status(200).json( await allData())
         case "POST":
-            res.status(200).json( await userData(email))
+            res.status(200).json( await userData(email));
+            return;
         case "PUT":
             res.status(200).json( await putData(id,title,note,email))
+            return;
         case "DELETE":
-            res.status(200).json( await deleteData(id,email))
+            res.status(200).json( await deleteData(id,email));
+            return;
+        default:
+            res.status(404).json("FAILED");
+            return;
     }
 
 }
