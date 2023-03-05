@@ -5,7 +5,7 @@ import styles from "./homepageContent.module.css";
 import PocketBase from 'pocketbase';
 
 const pb = new PocketBase("http://127.0.0.1:8090");
-const PRODUCTION : boolean = (process.env.PRODUCTION?.toLowerCase?.() === 'true');
+const PRODUCTION : boolean = (process.env.NEXT_PUBLIC_PRODUCTION?.toLowerCase?.() === 'true');
 const API = PRODUCTION ? 'https://apipostitnotes.netlify.app/api/notes' : 'http://localhost:3000/api/notes';
 
 export default function HomepageContent() {

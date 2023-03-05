@@ -7,9 +7,12 @@ import { useEffect } from "react";
 const clientId =
   "316204802962-jjkqmkcq42dc785kt673kg6sp84cs8pd.apps.googleusercontent.com";
 
+const PRODUCTION : boolean = (process.env.NEXT_PUBLIC_PRODUCTION?.toLowerCase?.() === 'true');
+const API = PRODUCTION ? 'https://apipostitnotes.netlify.app/api/users' : 'http://localhost:3000/api/users';
+
 const createUser = async (name: string, email: string) => {
   await fetch(
-    "http://127.0.0.1:8090/api/collections/users/records?page=1%perPage=30",
+    API,
     {
       method: "POST",
       headers: {
