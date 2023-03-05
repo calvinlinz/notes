@@ -2,22 +2,23 @@ import Link from "next/link";
 import styles from "./nav.module.css";
 import Login from "../Login/login";
 import { useEffect } from "react";
+import { gapi} from 'gapi-script'
 
 const clientId =
   "316204802962-jjkqmkcq42dc785kt673kg6sp84cs8pd.apps.googleusercontent.com";
 
+
+
 export default function Nav() {
   useEffect(() => {
     async function start() {
-      const gapi = await import("gapi-script").then((pack) => pack.gapi);
-
       gapi.client.init({
-        clientId: clientId,
-        scope: "",
+        client_d: clientId,
+        scope: "profile",
       });
-      gapi.load("client:auth2", start);
     }
-    start();
+    gapi.load("client:auth2", start);
+
   });
 
   return (
