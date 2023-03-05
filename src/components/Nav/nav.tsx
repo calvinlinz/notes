@@ -23,8 +23,7 @@ export default function Nav() {
         scope: "profile",
       });
     }
-    gapiHook.load("client:auth2", start);
-
+    gapiHook?.load("client:auth2", start);
   });
 
   return (
