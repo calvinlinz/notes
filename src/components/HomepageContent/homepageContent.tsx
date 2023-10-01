@@ -2,9 +2,6 @@ import { selectEmail } from "@/loginSlice";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import styles from "./homepageContent.module.css";
-import PocketBase from 'pocketbase';
-
-const pb = new PocketBase("http://127.0.0.1:8090");
 
 export default function HomepageContent() {
   const [data, setData] = useState<any[]>([""]);
@@ -12,44 +9,63 @@ export default function HomepageContent() {
   const [title, setTitle] = useState("");
   const [note, setNote] = useState("");
 
- async function getNotes() {
-    const res = await fetch(
-      `http://127.0.0.1:8090/api/collections/notes/records?filter=(email='${email}')`,
-      {
-        next: { revalidate: 10 },
-      }
-    );
-    const data = await res.json();
-    setData(data?.items);
+  const API_URL = process.env.API_URL || "";
+
+  async function getNotes() {
+    await fetch(`${API_URL}/api/notes`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title,
+        note,
+        email,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => setData(data));
   }
 
   const newNote = async (title: string, note: string) => {
-    await fetch(
-      `http://127.0.0.1:8090/api/collections/notes/records?page=1%perPage=30`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          note,
-          email,
-        }),
-      }
-    );
-    setTitle("");
-    setNote("");
-    getNotes();
+    fetch(`${API_URL}/api/notes`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title,
+        note,
+        email,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+        setTitle("");
+        setNote("");
+      });
   };
 
   const deleteNote = async (id: string) => {
-    await pb.collection("notes").delete(id);
-    getNotes();
+    await fetch(`${API_URL}/api/notes`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => setData(data));
   };
 
   useEffect(() => {
-    getNotes();
+    async function callGetNotes() {
+      await getNotes();
+    }
+    callGetNotes();
   }, [email]);
 
   return (
